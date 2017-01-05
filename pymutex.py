@@ -96,7 +96,6 @@ def lock(lockstring, timeout=DEFAULT_EXPIRY):
     '''
 
     #Prevent double-locking
-    print "lock"
     assert not locked_by_us(lockstring, timeout)
 
     lockfile_name = get_lockfile_name(lockstring)
