@@ -28,7 +28,7 @@ def get_lock_dir_prefix(lockstring):
     '''gets directory and filename prefix for lockfile'''
     lock_dir = os.path.dirname(lockstring)
     basename = os.path.basename(lockstring)
-    lockfile_prefix = basename + hash(basename)
+    lockfile_prefix = basename + str(hash(basename))
     return lock_dir, lockfile_prefix
 
 def get_lockfile_name(lockstring):
@@ -76,7 +76,7 @@ def get_lock_holder(lockstring, timeout):
 
     return lock_holder
 
-def locked_by_us(lockstring, timeout):
+def locked_by_us(lockstring, timeout=DEFAULT_EXPIRY):
     '''returns true if this process holds the lock.'''
     return get_lock_holder(lockstring, timeout) == ID
 
@@ -96,6 +96,7 @@ def lock(lockstring, timeout=DEFAULT_EXPIRY):
     '''
 
     #Prevent double-locking
+    print "lock"
     assert not locked_by_us(lockstring, timeout)
 
     lockfile_name = get_lockfile_name(lockstring)
